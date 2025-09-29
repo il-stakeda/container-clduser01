@@ -10,7 +10,7 @@ phases:
       - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin ${ECR_REPOSITORY}
   build:
     commands:
-      - docker build -t ecs-container .
+      - docker build -t container-test-app -f Dockerfile.txt .
       - docker tag ecs-container:latest ${ECR_REPOSITORY}:latest
   post_build:
     commands:
