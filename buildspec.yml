@@ -2,28 +2,32 @@ version: 0.2
 
 env:
   variables:
-    ECR_REGISTRY: 123132020578.dkr.ecr.ap-northeast-1.amazonaws.com
-    ECR_REPOSITORY: 123132020578.dkr.ecr.ap-northeast-1.amazonaws.com/takeda-container
-    IMAGE_TAG: latest   # 必要に応じて ${CODEBUILD_RESOLVED_SOURCE_VERSION} 等にすると再現性UP
+    ECR_REPOSITORY: <ECR Repository URL>
 
 phases:
   pre_build:
     commands:
-      - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin ${ECR_REGISTRY}
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin ${ECR_REPOSITORY}
   build:
     commands:
-      - docker build -t container-test-app:${IMAGE_TAG} -f Dockerfile.txt .
-      - docker tag container-test-app:${IMAGE_TAG} ${ECR_REPOSITORY}:${IMAGE_TAG}
+      - echo Building the Docker image...
+      - docker build -t container-test-app .
+      - docker tag container-test-app:latest ${ECR_REPOSITORY}:latest
   post_build:
     commands:
-      - docker push ${ECR_REPOSITORY}:${IMAGE_TAG}
+      - echo Pushing the Docker image...
+      - docker push ${ECR_REPOSITORY}:latest
+      - echo Build completed on `date`
+      - echo Creating imagedefinitions.json...
       - |
         echo '[
           {
-            "name": "ecs-container",
-            "imageUri": "'${ECR_REPOSITORY}':'${IMAGE_TAG}'"
+            "name": "container-test-app",
+            "imageUri": "'${ECR_REPOSITORY}':latest"
           }
         ]' > imagedefinitions.json
+      - echo imagedefinitions.json created.
 
 artifacts:
   files:
