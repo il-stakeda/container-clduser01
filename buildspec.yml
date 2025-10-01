@@ -2,10 +2,10 @@ version: 0.2
 
 env:
   variables:
-    ECR_REGISTRY: <RCR URL>
-    ECR_REPOSITORY: <ECR Repository>
+    ECR_REGISTRY: 123132020578.dkr.ecr.ap-northeast-1.amazonaws.com
+    ECR_REPOSITORY: 123132020578.dkr.ecr.ap-northeast-1.amazonaws.com/yamada-container
     IMAGE_TAG: latest
-    CONTAINER_NAME: <private Repository name>
+    CONTAINER_NAME: yamada-container
 
 phases:
   pre_build:
