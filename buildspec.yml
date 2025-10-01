@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     ECR_REGISTRY: 123132020578.dkr.ecr.ap-northeast-1.amazonaws.com
-    ECR_REPOSITORY: 123132020578.dkr.ecr.ap-northeast-1.amazonaws.com/testtaro-container
+    ECR_REPOSITORY: 123132020578.dkr.ecr.ap-northeast-1.amazonaws.com/takeda-container
     IMAGE_TAG: latest   # 必要に応じて ${CODEBUILD_RESOLVED_SOURCE_VERSION} 等にすると再現性UP
 
 phases:
